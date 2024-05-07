@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>{% meta['title'] %}</title>
+    <style>
+        {% include('styles.css') %}
+    </style>
+</head>
+<body>
+
+
+<nav>
+    <ul>
+        {%%
+        for item in navigation:
+            url = item['url'] if 'url' in item else item['page'] + '.html'
+            on = 'on' if 'page' in item and current_page == item['page'] else ''
+            print(f"""
+                <li class="{on}">
+                    <a href="{url}">{item['label']}</a>
+                </li>
+            """)
+        %%}
+    </ul>
+</nav>
+
+<section>
+
+<aside>
+    {% toc %}
+</aside>
+
+<main>
+        {%%
+            # content is the path to the current source file
+            # being processed in the page list
+            pass
+        %%}
+        {%
+            include(content)
+        %}
+</main>
+
+
+</section>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Default landing page
+DirectoryIndex {% landing_page %}.html
+
+# Redirections
+RewriteEngine on
+
+# Remove .html extension
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^ %{REQUEST_URI}.html [NC,L]
+
+# Force Implicit landing page
+RewriteCond {% landing_page %}.html
+RewriteRule ^ / [NC,L]

@@ -1,0 +1,43 @@
+# Defines default meta datas
+# These can be overriden in each markdown file
+meta:
+    # A template is an html file in which the markdown content
+    # can be injected using a special markup
+    template: template.html
+    # This would be the default title
+    title: 'Kishta'
+
+# Defines what files should be built
+# items must be of the form output: source_file
+# if source_file is a .md file, it will be parsed as Markdown
+# and output will be an html file, otherwise the output's
+# extension will be used
+pages:
+    # main documation page built after docs.md
+    index: docs.md
+    examples: examples.md
+
+    # htaccess file built with templating syntaxes
+    .htaccess: .htaccess
+
+
+# Below this line, these are just arbitrary globals
+# We'll use in our templates to built the site
+
+# A list of page for a navigation bar
+navigation:
+    -
+        label: Home
+        page: index
+    -
+        label: Examples
+        page: examples
+    -
+        label: Sources
+        url: https://github.com/jean-emmanuel/kishta
+
+# An app name kept in one place for easy rebranding
+name: Kishta
+
+# a choice of default page for apache (.htaccess)
+landing_page: index

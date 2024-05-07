@@ -1,0 +1,250 @@
+---
+title: {% name %} - Docs
+---
+
+## {% name %}
+
+{% name %} is an ultra minimalist static site generator. Barebone markdown + python templating.
+
+It's a work in progress.
+
+## Requirements
+
+{% name %} is a python program, it runs on gnu/linux systems and requires the following libraries to work:
+
+```
+python3 python3-markdown python3-bs4 python3-yaml python3-pil python3-inotify rsync
+```
+
+## Usage
+
+```
+python3 -m {% name.lower() %} [-h] [--src SRC] [--out OUT] [--watch] [--version]
+
+options:
+  -h, --help  show this help message and exit
+  --src SRC   site source directory (default: ./src)
+  --out OUT   site build output directory (default: ./build)
+  --watch     watch for changes in sources and rebuild automatically (default: False)
+  --version   show program's version number and exit
+```
+
+## Site structure
+
+The source directory can contain files of any types without predetermined folder structure. It must contain a YAML file named `config.yml` located at its root, that will determine how source files will be used to built the website.
+
+```yaml
+# This is the configuration file used to build {% name %}'s documentation
+
+{% include('config.yml', parse_yaml=False) %}
+```
+
+
+## Templating syntaxes
+
+### Single line syntax
+
+```
+{{% '%' %} CODE {% '%' %}}
+```
+
+Will be replaced by the return value of `CODE`, interpreted as python code.
+
+### Multiline syntax
+
+```
+{{% '%%' %}
+    CODE
+{% '%%' %}}
+```
+
+Will be replaced by the standard output of `CODE`'s execution' (fed with `print()`).
+
+## Templating globals
+
+Besides the variables and functions listed below, all first level keys in `config.yml` are available as globals in embed python codes. Additionally, custom variables and functions can be declared in a file named `functions.py` in the source directory's root.
+
+
+!!! note "content"
+
+    ### content
+
+    Path to current page's source file, to be used with `include()` in the template file to generate the actual content.
+
+    **Example**
+
+    ```html
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>{{% '%' %} meta['title'] {% '%' %}}</title>
+    </head>
+    <body>
+        <main>
+            {{% '%' %} include(content) {% '%' %}}
+        </main>
+    </body>
+    </html>
+    ```
+
+
+
+!!! note "`compiled_pages`"
+
+    ### compiled_pages
+
+    A dict of `source_path: build_path` pairs generated from the `pages` entry in `config.yml`.
+
+    **Example**
+
+    ```python
+    <div class="blog">
+        {{% '%%' %}
+
+            blog = []
+
+            for page in compiled_pages:
+                if 'blog/' in page:
+                    blog.append(page)
+
+            blog.sort(reverse=True)
+
+            for post in blog:
+                print('<div class="blog-post">')
+                print(include(post))
+                print('</div>')
+
+        {% '%%' %}}
+    </div>
+    ```
+
+!!! note "`current_page`"
+
+    ### current_page
+
+    Name of current page being built (key in the `pages` list from `config.yml`).
+
+
+!!! note "`toc`"
+
+    ### toc
+
+    HTML table of contents of current page, built after headers starting with `<h2>`.
+
+    **Example**
+
+    ```html
+    <div class="toc">
+        {{% '%' %} toc {% '%' %}}
+    </div>
+    ```
+
+
+!!! note "`include(path, parse_yaml=True, **context)`"
+
+    ### include()
+
+    Compile resource (resolve templating syntaxes) and return it.
+
+    **Parameters**
+
+    - `path`: path to file, relative to source directory
+    - `parse_yaml`: set to `False` to return `.yml` resource as a string instead of a dict
+    - `**context`: keyword arguments to include in the excecution context for embed python code blocks (will be available as globals)
+
+    **Returns**
+
+    A dict if requested resource is a YAML file (`.yml`), a string otherwise.
+
+
+!!! note "`get(name, default='')`"
+
+    ### get()
+
+    Get variable by name from global context with a fallback default value
+
+
+    **Parameters**
+
+    - `name`: variable name
+    - `default`: fallback value if variable is not defined in execution context
+
+    **Returns**
+
+    Variable or fallback value.
+
+
+
+!!! note "`get_meta(path)`"
+
+    ### get_meta()
+
+    Get meta datas of markdown resource.
+
+    **Parameters**
+
+    - path: path to markdown file (`.md`), relative to source directory
+
+    **Returns**
+
+    A dict containing meta datas found in requested file.
+
+
+
+!!! note "`image_cache(path, resize=200, quality=70)`"
+
+    ### image_cache()
+
+    Create a resized version of an image and cache it.
+
+    **Parameters**
+
+    - path: image path, relative to source directory, or distant url (`http://` or `https://`). Distant resources will be downloaded only if resized image is not already in cache.  
+    - resize: image width, aspect_ratio will be preserved.
+    - quality: jpeg quality, ignored if source image is a gif.
+
+    **Returns**
+
+    Path to resized image, relative to build directory.
+
+
+## Managing uploads
+
+{% name %} doesn't manage files besides the strict necessary to run the site, including resized images generated by `image_cache()`.
+
+Other resources should be uploaded by the means of your choice and linked to directly in the the site's content.
+
+It's also possible to create a file database and use a custom function to generate links in a more robust manner.
+
+/// tab | uploads.yml
+```yaml
+# file uploads data base
+base_url: https://domain.tld/uploads/
+files:
+    img1: image1.png
+    img2: image2.jpg
+
+```
+///
+
+/// tab | functions.py
+```python
+file_db = include('uploads.yml')
+def file_url(id):
+    url = file_db['base_url']
+    if id in file_db['files']:
+        return file_db['base_url'] + file_db['files'][id]
+    else:
+        return 'Error: file not found in database'
+
+```
+///
+
+/// tab | example.md
+```md
+## Title
+
+Click [here]({{% '%' %} file_url('img1') {% '%' %}}) to download.
+
+```
+///

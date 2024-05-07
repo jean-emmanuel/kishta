@@ -13,7 +13,7 @@ It's a work in progress.
 {% name %} is a python program, it runs on gnu/linux systems and requires the following libraries to work:
 
 ```
-python3 python3-markdown python3-bs4 python3-yaml python3-pil python3-inotify rsync
+python3 python3-markdown python3-bs4 python3-yaml python3-pil python3-inotify
 ```
 
 ## Usage

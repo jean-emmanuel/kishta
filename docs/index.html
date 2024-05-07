@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html dir="ltr">
+<head>
+<meta charset="utf-8"/>
+<title>Kishta - Docs</title>
+<style>
+        :root {
+    --color-text: #333;
+    --accent-hue: 230;
+    --accent-sat: 50%;
+    --accent-lit: 50%;
+    --color-accent: hsla(var(--accent-hue), var(--accent-sat), var(--accent-lit), 1);
+    --color-accent-fade: hsla(var(--accent-hue), var(--accent-sat), var(--accent-lit), 0.3);
+    --side-width: 200px;
+    --site-width: 960px;
+    --top-height: 40px;
+    --p-margin: 20px;
+    --color-bg: #fff;
+    --color-bg-alt: #f0f0f0;
+    --color-border: rgba(0,0,0,0.15);
+    height: 100%;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+    line-height: 1.5;
+    font-size: 12px;
+    color: var(--color-text);
+    height: 100%;
+    background: white;
+}
+
+nav {
+    height: var(--top-height);
+    /* box-shadow: 0 0 1px 0 rgba(0,0,0,0.15); */
+    border-bottom: 1px solid var(--color-border);
+    z-index: 2;
+}
+nav ul {
+    list-style: none;
+    padding: 0 20px;
+    line-height: var(--top-height);
+    /* background: var(--color-accent-fade); */
+}
+nav ul li {
+    display: inline-block;
+    margin-right: var(--p-margin)
+}
+nav ul li a {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.6
+}
+nav ul li.on a, nav a:hover {
+    opacity: 1
+}
+nav a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: var(--site-width)
+
+}
+
+
+aside {
+    width: var(--side-width);
+    margin-right: 20px;
+    background: var(--color-bg-alt);
+}
+
+
+main {
+    flex: 1;
+    padding-top: var(--p-margin);
+    min-width: 0;
+    overflow-y: auto;
+}
+
+.wrapper {
+}
+
+aside ul {
+    margin-bottom: 0;
+    list-style: none;
+}
+aside > ul {
+    list-style: none;
+    position: sticky;
+    top: 0!important;
+    width: calc(var(--side-width));
+    padding-top: var(--p-margin);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 0;
+    padding-right: 20px;
+}
+aside > ul > li {
+    margin-left: var(--p-margin);
+}
+aside li {
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+ul, ol {
+    padding-left: 20px;
+}
+main ul ul {
+    margin-bottom: 0;
+}
+h1, h2, h3, ul, pre, p {
+    margin-bottom: var(--p-margin);
+}
+hr {
+    margin: calc(2 * var(--p-margin)) 0;
+    opacity: 0.5;
+}
+a {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+aside a {
+    color: inherit;
+    text-decoration: none;
+}
+aside a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+h1, h2, h3 {
+    padding-top: var(--p-margin);
+    margin-top: calc(-1 * var(--p-margin));
+}
+.content {
+    padding-left: 20px;
+}
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+    padding: 0 4px;
+}
+pre, code {
+    background: var(--color-bg-alt);
+    border: 1px solid rgba(0,0,0,0.05);
+    /* border-radius: 4px; */
+}
+code {
+    padding: 0 2px!important;
+    text-align: center;
+}
+pre code {
+    padding: 0;
+    background: none;
+    border: none;
+}
+.version {
+    opacity: 0.5;
+}
+
+.admonition {
+    padding: 0 10px;
+    /* opacity: 0.8; */
+    /* border-left: 2px solid var(--color-accent); */
+    margin-bottom: var(--p-margin);
+    border: 1px solid var(--color-accent-fade);
+    /* border-radius: 4px; */
+}
+.admonition * {
+    --p-margin: 10px;
+}
+
+.admonition-title {
+    /* display: none */
+    font-weight: bold;
+    background: var(--color-accent-fade);
+    background-clip: padding-box;
+    border-bottom: 1px solid var(--color-accent-fade);;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding: 4px 10px;
+    /* font-size: 14px; */
+}
+
+.admonition-title code {
+    background: none;
+    border: none;
+}
+
+.admonition-title  + h3 {
+    display: none;
+}
+
+/* Code hilight */
+.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+
+/* Tab style starts here */
+.tabbed-set {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  /* margin: 1em 0; */
+  /* border-radius: 0.1rem; */
+}
+
+.tabbed-set > input {
+  display: none;
+}
+
+.tabbed-set label {
+  width: auto;
+  padding: 5px 10px;
+  /* font-weight: 700; */
+  /* font-size: 0.84em; */
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  /* border-top-left-radius: 0.1rem; */
+  /* border-top-right-radius: 0.1rem; */
+  cursor: pointer;
+  transition: background-color 250ms, color 250ms;
+}
+
+.tabbed-set .tabbed-content {
+  width: 100%;
+  display: none;
+  box-shadow: 0 -2px var(--color-border);
+}
+
+.tabbed-set input {
+  position: absolute;
+  opacity: 0;
+}
+
+.tabbed-set input:checked:nth-child(n+1) + label {
+  color: var(--color-accent);;
+  border-color: var(--color-accent);
+}
+
+@media screen {
+  .tabbed-set input:nth-child(n+1):checked + label + .tabbed-content {
+    order: 99;
+    display: block;
+  }
+}
+
+@media print {
+  .tabbed-content {
+    display: contents;
+  }
+}
+
+    </style>
+</head>
+<body>
+<nav>
+<ul>
+<li class="on">
+<a href="index.html">Home</a>
+</li>
+<li class="">
+<a href="examples.html">Examples</a>
+</li>
+<li class="">
+<a href="https://github.com/jean-emmanuel/kishta">Sources</a>
+</li>
+</ul>
+</nav>
+<section>
+<aside>
+<ul><li><a href="#kishta">Kishta</a></li><li><a href="#requirements">Requirements</a></li><li><a href="#usage">Usage</a></li><li><a href="#site-structure">Site structure</a></li><li><a href="#templating-syntaxes">Templating syntaxes</a><ul><li><a href="#single-line-syntax">Single line syntax</a></li><li><a href="#multiline-syntax">Multiline syntax</a></li></ul></li><li><a href="#templating-globals">Templating globals</a><ul><li><a href="#content">content</a></li><li><a href="#compiled_pages">compiled_pages</a></li><li><a href="#current_page">current_page</a></li><li><a href="#toc">toc</a></li><li><a href="#include">include()</a></li><li><a href="#get">get()</a></li><li><a href="#get_meta">get_meta()</a></li><li><a href="#image_cache">image_cache()</a></li></ul></li><li><a href="#managing-uploads">Managing uploads</a></li></ul>
+</aside>
+<main>
+<h2 id="kishta">Kishta</h2>
+<p>Kishta is an ultra minimalist static site generator. Barebone markdown + python templating.</p>
+<p>It's a work in progress.</p>
+<h2 id="requirements">Requirements</h2>
+<p>Kishta is a python program, it runs on gnu/linux systems and requires the following libraries to work:</p>
+<div class="highlight"><pre><span></span><code>python3 python3-markdown python3-bs4 python3-yaml python3-pil python3-inotify rsync
+</code></pre></div>
+<h2 id="usage">Usage</h2>
+<div class="highlight"><pre><span></span><code>python3 -m kishta [-h] [--src SRC] [--out OUT] [--watch] [--version]
+
+options:
+  -h, --help  show this help message and exit
+  --src SRC   site source directory (default: ./src)
+  --out OUT   site build output directory (default: ./build)
+  --watch     watch for changes in sources and rebuild automatically (default: False)
+  --version   show program's version number and exit
+</code></pre></div>
+<h2 id="site-structure">Site structure</h2>
+<p>The source directory can contain files of any types without predetermined folder structure. It must contain a YAML file named <code>config.yml</code> located at its root, that will determine how source files will be used to built the website.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># This is the configuration file used to build Kishta's documentation</span>
+
+<span class="c1"># Defines default meta datas</span>
+<span class="c1"># These can be overriden in each markdown file</span>
+<span class="nt">meta</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># A template is an html file in which the markdown content</span>
+<span class="w">    </span><span class="c1"># can be injected using a special markup</span>
+<span class="w">    </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">template.html</span>
+<span class="w">    </span><span class="c1"># This would be the default title</span>
+<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">'Kishta'</span>
+
+<span class="c1"># Defines what files should be built</span>
+<span class="c1"># items must be of the form output: source_file</span>
+<span class="c1"># if source_file is a .md file, it will be parsed as Markdown</span>
+<span class="c1"># and output will be an html file, otherwise the output's</span>
+<span class="c1"># extension will be used</span>
+<span class="nt">pages</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># main documation page built after docs.md</span>
+<span class="w">    </span><span class="nt">index</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs.md</span>
+<span class="w">    </span><span class="nt">examples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">examples.md</span>
+
+<span class="w">    </span><span class="c1"># htaccess file built with templating syntaxes</span>
+<span class="w">    </span><span class="nt">.htaccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.htaccess</span>
+
+
+<span class="c1"># Below this line, these are just arbitrary globals</span>
+<span class="c1"># We'll use in our templates to built the site</span>
+
+<span class="c1"># A list of page for a navigation bar</span>
+<span class="nt">navigation</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span>
+<span class="w">        </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Home</span>
+<span class="w">        </span><span class="nt">page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index</span>
+<span class="w">    </span><span class="p p-Indicator">-</span>
+<span class="w">        </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Examples</span>
+<span class="w">        </span><span class="nt">page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">examples</span>
+<span class="w">    </span><span class="p p-Indicator">-</span>
+<span class="w">        </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sources</span>
+<span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/jean-emmanuel/kishta</span>
+
+<span class="c1"># An app name kept in one place for easy rebranding</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kishta</span>
+
+<span class="c1"># a choice of default page for apache (.htaccess)</span>
+<span class="nt">landing_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index</span>
+</code></pre></div>
+<h2 id="templating-syntaxes">Templating syntaxes</h2>
+<h3 id="single-line-syntax">Single line syntax</h3>
+<div class="highlight"><pre><span></span><code>{% CODE %}
+</code></pre></div>
+<p>Will be replaced by the return value of <code>CODE</code>, interpreted as python code.</p>
+<h3 id="multiline-syntax">Multiline syntax</h3>
+<div class="highlight"><pre><span></span><code>{%%
+    CODE
+%%}
+</code></pre></div>
+<p>Will be replaced by the standard output of <code>CODE</code>'s execution' (fed with <code>print()</code>).</p>
+<h2 id="templating-globals">Templating globals</h2>
+<p>Besides the variables and functions listed below, all first level keys in <code>config.yml</code> are available as globals in embed python codes. Additionally, custom variables and functions can be declared in a file named <code>functions.py</code> in the source directory's root.</p>
+<div class="admonition note">
+<p class="admonition-title">content</p>
+<h3 id="content">content</h3>
+<p>Path to current page's source file, to be used with <code>include()</code> in the template file to generate the actual content.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>{% meta['title'] %}<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
+        {% include(content) %}
+    <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>compiled_pages</code></p>
+<h3 id="compiled_pages">compiled_pages</h3>
+<p>A dict of <code>source_path: build_path</code> pairs generated from the <code>pages</code> entry in <code>config.yml</code>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">"blog"</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%%</span>
+
+        <span class="n">blog</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">compiled_pages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">'blog/'</span> <span class="ow">in</span> <span class="n">page</span><span class="p">:</span>
+                <span class="n">blog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+
+        <span class="n">blog</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">post</span> <span class="ow">in</span> <span class="n">blog</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'&lt;div class="blog-post"&gt;'</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">include</span><span class="p">(</span><span class="n">post</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'&lt;/div&gt;'</span><span class="p">)</span>
+
+    <span class="o">%%</span><span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</code></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>current_page</code></p>
+<h3 id="current_page">current_page</h3>
+<p>Name of current page being built (key in the <code>pages</code> list from <code>config.yml</code>).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>toc</code></p>
+<h3 id="toc">toc</h3>
+<p>HTML table of contents of current page, built after headers starting with <code>&lt;h2&gt;</code>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"toc"</span><span class="p">&gt;</span>
+    {% toc %}
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>include(path, parse_yaml=True, **context)</code></p>
+<h3 id="include">include()</h3>
+<p>Compile resource (resolve templating syntaxes) and return it.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><code>path</code>: path to file, relative to source directory</li>
+<li><code>parse_yaml</code>: set to <code>False</code> to return <code>.yml</code> resource as a string instead of a dict</li>
+<li><code>**context</code>: keyword arguments to include in the excecution context for embed python code blocks (will be available as globals)</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A dict if requested resource is a YAML file (<code>.yml</code>), a string otherwise.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>get(name, default='')</code></p>
+<h3 id="get">get()</h3>
+<p>Get variable by name from global context with a fallback default value</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><code>name</code>: variable name</li>
+<li><code>default</code>: fallback value if variable is not defined in execution context</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>Variable or fallback value.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>get_meta(path)</code></p>
+<h3 id="get_meta">get_meta()</h3>
+<p>Get meta datas of markdown resource.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>path: path to markdown file (<code>.md</code>), relative to source directory</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A dict containing meta datas found in requested file.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>image_cache(path, resize=200, quality=70)</code></p>
+<h3 id="image_cache">image_cache()</h3>
+<p>Create a resized version of an image and cache it.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>path: image path, relative to source directory, or distant url (<code>http://</code> or <code>https://</code>). Distant resources will be downloaded only if resized image is not already in cache.  </li>
+<li>resize: image width, aspect_ratio will be preserved.</li>
+<li>quality: jpeg quality, ignored if source image is a gif.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>Path to resized image, relative to build directory.</p>
+</div>
+<h2 id="managing-uploads">Managing uploads</h2>
+<p>Kishta doesn't manage files besides the strict necessary to run the site, including resized images generated by <code>image_cache()</code>.</p>
+<p>Other resources should be uploaded by the means of your choice and linked to directly in the the site's content.</p>
+<p>It's also possible to create a file database and use a custom function to generate links in a more robust manner.</p>
+<div class="tabbed-set" data-tabs="1:3"><input checked="" id="__tabbed_1_1" name="__tabbed_1" type="radio"/><label for="__tabbed_1_1">uploads.yml</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1"># file uploads data base</span>
+<span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://domain.tld/uploads/</span>
+<span class="nt">files</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">img1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">image1.png</span>
+<span class="w">    </span><span class="nt">img2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">image2.jpg</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio"/><label for="__tabbed_1_2">functions.py</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">file_db</span> <span class="o">=</span> <span class="n">include</span><span class="p">(</span><span class="s1">'uploads.yml'</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">file_url</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">file_db</span><span class="p">[</span><span class="s1">'base_url'</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">file_db</span><span class="p">[</span><span class="s1">'files'</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">file_db</span><span class="p">[</span><span class="s1">'base_url'</span><span class="p">]</span> <span class="o">+</span> <span class="n">file_db</span><span class="p">[</span><span class="s1">'files'</span><span class="p">][</span><span class="nb">id</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'Error: file not found in database'</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_3" name="__tabbed_1" type="radio"/><label for="__tabbed_1_3">example.md</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="gu">## Title</span>
+
+Click [<span class="nt">here</span>](<span class="na">{% file_url('img1'</span>) %}) to download.
+</code></pre></div>
+</div>
+</div>
+</main>
+</section>
+</body>
+</html>

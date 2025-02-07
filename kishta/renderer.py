@@ -281,17 +281,22 @@ class Renderer():
 
     def error(self, exception, code):
 
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        frame = traceback.extract_tb(exc_traceback)[-1]
-        offendingcode = code.split('\n')[frame.lineno - 1]
-
         if not len(self.pending_include):
-            print(f'\nError during compilation of {self.path} at line {frame.lineno}:')
+            baseerror = f'\nError during compilation of {self.path}'
         else:
-            print(f'\nError during compilation of {self.pending_include[-1]} (template; {self.path}) at line {frame.lineno}:')
+            baseerror  = f'\nError during compilation of {self.pending_include[-1]} (template; {self.path})'
 
-        print(f'>    {offendingcode}')
-        print(f'{str(exception.__class__.__name__)}: {exception}\n')
+        frame = traceback.extract_tb(exception.__traceback__)[-1]
+
+        if "<string>" != frame.filename:
+            print(baseerror + ':')
+            print(''.join(traceback.format_exception(None, exception, exception.__traceback__)))
+        else:
+            offendingcode = code.split('\n')[frame.lineno - 1]
+            print(baseerror + ':')
+            # print(baseerror + f' at line {frame.lineno}')
+            print(f'>    {offendingcode}')
+            print(f'{str(exception.__class__.__name__)}: {exception}\n')
 
     def get(self, name, default=''):
         """

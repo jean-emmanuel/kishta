@@ -191,8 +191,14 @@ class Renderer():
                 _print._output += '\n'.join([str(a).strip() for a in args]) + '\n'
             _print._output = ''
             command = m.group(1)
-            if command[0] == '\n' and command[1] == ' ':
-                command = 'if True:\n' + command # indent fixer
+
+            # indent fixer
+            if command[0] == '\n':
+                for c in command:
+                    if c != '\n':
+                        if c in [' ', '\t']:
+                            command = 'if True:\n' + command
+                        break
             try:
                 exec(command, deep_merge(self.globals, {'print': _print}), locals)
             except Exception as e:

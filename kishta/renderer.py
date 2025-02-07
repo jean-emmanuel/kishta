@@ -11,6 +11,7 @@ import os
 import requests
 import tempfile
 import traceback
+import sys
 
 
 from urllib.parse import urlparse
@@ -192,27 +193,27 @@ class Renderer():
             command = m.group(1)
             if command[0] == '\n' and command[1] == ' ':
                 command = 'if True:\n' + command # indent fixer
-            exec(command, deep_merge(self.globals, {'print': _print}), locals)
+            try:
+                exec(command, deep_merge(self.globals, {'print': _print}), locals)
+            except Exception as e:
+                if not self.prerendering:
+                    self.error(e, command)
             return _print._output
 
-        try:
-            content_string = re.sub(r'{%%(.*?)%%}\n?', exec_repl, content_string, flags=re.DOTALL)
-        except Exception as e:
-            if not self.prerendering:
-                self.error(e)
+        content_string = re.sub(r'{%%(.*?)%%}\n?', exec_repl, content_string, flags=re.DOTALL)
 
         def eval_repl(m):
             command = m.group(1)
-            content = eval(command.strip(), self.globals, locals)
-            content = str(content)
+            try:
+                content = eval(command.strip(), self.globals, locals)
+                content = str(content)
+                return content
+            except Exception as e:
+                if not self.prerendering:
+                    self.error(e, command.strip())
 
-            return content
 
-        try:
-            content_string = re.sub(r'{%([^%].*?)%}', eval_repl, content_string, flags=re.DOTALL)
-        except Exception as e:
-            if not self.prerendering:
-                self.error(e)
+        content_string = re.sub(r'{%([^%].*?)%}', eval_repl, content_string, flags=re.DOTALL)
 
         # purge locals to avoid variable leak
         self.locals = {}
@@ -272,13 +273,19 @@ class Renderer():
         else:
             return {}
 
-    def error(self, exception):
-        if not len(self.pending_include):
-            print('Error during compilation of %s' % (self.path))
-        else:
-            print('Error during compilation of %s (template: %s)' % (self.pending_include[-1], self.path))
-        print(traceback.format_exc())
+    def error(self, exception, code):
 
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        frame = traceback.extract_tb(exc_traceback)[-1]
+        offendingcode = code.split('\n')[frame.lineno - 1]
+
+        if not len(self.pending_include):
+            print(f'\nError during compilation of {self.path} at line {frame.lineno}:')
+        else:
+            print(f'\nError during compilation of {self.pending_include[-1]} (template; {self.path}) at line {frame.lineno}:')
+
+        print(f'>    {offendingcode}')
+        print(f'{str(exception.__class__.__name__)}: {exception}\n')
 
     def get(self, name, default=''):
         """

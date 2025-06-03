@@ -351,7 +351,6 @@ class Renderer():
                 tmp.write(req.content)
                 src_img = Image.open(tmp)
                 src_img.load()
-                tmp.close()
             else:
                 src_img = Image.open(self.engine.paths[path])
 
@@ -379,6 +378,11 @@ class Renderer():
                     disposal=src_img.disposal_method,
                     **src_img.info,
                 )
+
+
+            src_img.close()
+            if distant_src:
+                tmp.close()
 
 
         return_path = cache_path.replace(self.engine.build_path, '')
